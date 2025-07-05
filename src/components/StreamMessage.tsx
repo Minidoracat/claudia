@@ -13,6 +13,7 @@ import remarkGfm from "remark-gfm";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { claudeSyntaxTheme } from "@/lib/claudeSyntaxTheme";
 import type { ClaudeStreamMessage } from "./AgentExecution";
+import { useTranslations } from "@/lib/i18n/useI18n";
 import {
   TodoWidget,
   TodoReadWidget,
@@ -51,6 +52,8 @@ interface StreamMessageProps {
  * Component to render a single Claude Code stream message
  */
 const StreamMessageComponent: React.FC<StreamMessageProps> = ({ message, className, streamMessages, onLinkDetected }) => {
+  const t = useTranslations();
+  
   // State to track tool results mapped by tool call ID
   const [toolResults, setToolResults] = useState<Map<string, any>>(new Map());
   
@@ -297,7 +300,7 @@ const StreamMessageComponent: React.FC<StreamMessageProps> = ({ message, classNa
                 
                 {msg.usage && (
                   <div className="text-xs text-muted-foreground mt-2">
-                    Tokens: {msg.usage.input_tokens} in, {msg.usage.output_tokens} out
+                    {t('dashboard.tokens')}: {msg.usage.input_tokens} in, {msg.usage.output_tokens} out
                   </div>
                 )}
               </div>
@@ -696,7 +699,7 @@ const StreamMessageComponent: React.FC<StreamMessageProps> = ({ message, classNa
                   )}
                   {message.usage && (
                     <div>
-                      Total tokens: {message.usage.input_tokens + message.usage.output_tokens} 
+                      Total {t('dashboard.tokens')}: {message.usage.input_tokens + message.usage.output_tokens} 
                       ({message.usage.input_tokens} in, {message.usage.output_tokens} out)
                     </div>
                   )}
